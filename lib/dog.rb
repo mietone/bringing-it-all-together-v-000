@@ -32,6 +32,9 @@ class Dog
     self.new(name: name, breed: breed, id: id)
   end
 
+  
+  #check
+  
   def self.find_by_name(name)
     sql = <<-SQL
       SELECT * FROM dogs WHERE name = ? LIMIT 1
@@ -47,6 +50,8 @@ class Dog
     DB[:conn].execute(sql, self.name, self.breed, self.id)
   end
 
+  
+  #check
   def save
     if self.id
       self.update
@@ -60,6 +65,12 @@ class Dog
       @id = DB[:conn].execute("SELECT last_insert_rowid() FROM dogs")[0][0]
     end
     self
+  end
+
+  def self.create(name:. breed:)
+    dog = Dog.new(name, breed)
+    dog.save
+    dog
   end
 
 
