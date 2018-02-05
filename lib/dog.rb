@@ -32,9 +32,9 @@ class Dog
     self.new(name: name, breed: breed, id: id)
   end
 
-  
+
   #check
-  
+
   def self.find_by_name(name)
     sql = <<-SQL
       SELECT * FROM dogs WHERE name = ? LIMIT 1
@@ -50,7 +50,7 @@ class Dog
     DB[:conn].execute(sql, self.name, self.breed, self.id)
   end
 
-  
+
   #check
   def save
     if self.id
@@ -67,7 +67,7 @@ class Dog
     self
   end
 
-  def self.create(name:. breed:)
+  def self.create(name:, breed:)
     dog = Dog.new(name, breed)
     dog.save
     dog
