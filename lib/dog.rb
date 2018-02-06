@@ -1,12 +1,10 @@
 class Dog
   attr_accessor :name, :breed, :id
-  # attr_reader :id
 
   def initialize(hash)
-    # @id = nil
     hash.each{|key, value| self.send("#{key}=", value)}
-    # self
   end
+
 
   def self.create_table
     sql = <<-SQL
@@ -20,22 +18,17 @@ class Dog
     DB[:conn].execute(sql)
   end
 
+
   def self.drop_table
     sql = "DROP TABLE IF EXISTS dogs"
     DB[:conn].execute(sql)
   end
 
-#check
+
   def self.new_from_db(row)
-    # id = row[0]
-    # name = row[1]
-    # breed = row[2]
-    # self.new(name: name, breed: breed, id: id)
     self.new(id: row[0], name: row[1], breed: row[2])
   end
 
-
-  #check
 
   def self.find_by_name(name)
     sql = <<-SQL
@@ -47,20 +40,20 @@ class Dog
     end.first
   end
 
+
   def update
     sql = "UPDATE dogs SET name = ?, breed = ? WHERE id = ?"
     DB[:conn].execute(sql, self.name, self.breed, self.id)
   end
 
 
-  #check
   def save
     if self.id
       self.update
     else
       sql = <<-SQL
-      INSERT INTO dogs (name, breed)
-      VALUES (?, ?)
+        INSERT INTO dogs (name, breed)
+        VALUES (?, ?)
       SQL
 
       DB[:conn].execute(sql, self.name, self.breed)
@@ -69,11 +62,13 @@ class Dog
     self
   end
 
+
   def self.create(name:, breed:)
     dog = Dog.new(name: name, breed: breed)
     dog.save
     dog
   end
+
 
   def self.find_by_id(id)
     sql = <<-SQL
@@ -87,6 +82,7 @@ class Dog
       self.new_from_db(row)
     end.first
   end
+
 
   def self.find_or_create_by(name:, breed:)
     sql = <<-SQL
